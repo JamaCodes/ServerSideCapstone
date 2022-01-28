@@ -21,7 +21,7 @@ namespace FindMyReport.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT Id, FirebaseUserId, FirstName, LastName, Phone, DateOfBirth, State, IsProvider 
-                         FROM User
+                         FROM UserProfile
                          WHERE FirebaseUserId = @FirebaseuserId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
