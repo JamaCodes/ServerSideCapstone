@@ -13,16 +13,16 @@ namespace FindMyReport.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public UserController(IUserProfileRepository userRepository)
         {
-            _userRepository = userRepository;
+            _userProfileRepository = userRepository;
         }
 
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetByFirebaseUserId(string firebaseUserId)
         {
-            var userProfile = _userRepository.GetByFirebaseUserId(firebaseUserId);
+            var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
             if (userProfile == null)
             {
                 return NotFound();
@@ -33,7 +33,7 @@ namespace FindMyReport.Controllers
         [HttpGet("DoesUserExist/{firebaseUserId}")]
         public IActionResult DoesUserExist(string firebaseUserId)
         {
-            var userProfile = _userRepository.GetByFirebaseUserId(firebaseUserId);
+            var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
             if (userProfile == null)
             {
                 return NotFound();
@@ -42,10 +42,10 @@ namespace FindMyReport.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewUser(User user)
+        public IActionResult NewUser(UserProfile user)
         {
 
-            _userRepository.Add(user);
+            _userProfileRepository.Add(user);
             return CreatedAtAction(
                 nameof(GetUser),
                 new { firebaseUserId = user.FirebaseUserId },
@@ -55,7 +55,7 @@ namespace FindMyReport.Controllers
         [HttpGet("new/{firebaseUserId}")]
         public IActionResult GetUser(string firebaseUserId)
         {
-            return Ok(_userRepository.GetByFirebaseUserId(firebaseUserId));
+            return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
         }
 
     }

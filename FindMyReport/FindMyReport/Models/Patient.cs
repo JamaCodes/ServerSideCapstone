@@ -5,12 +5,9 @@ using System.Runtime.InteropServices;
 
 namespace FindMyReport.Models
 {
-    public class UserProfile
+    public class Patient
     {
         public int Id { get; set; }
-
-        [StringLength(28, MinimumLength = 28)]
-        public string FirebaseUserId { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -19,14 +16,29 @@ namespace FindMyReport.Models
         [Required]
         [MaxLength(50)]
         public string LastName { get; set; }
+        [Required]
+        public string Address { get; set; }
+        [Required]
+        public string City { get; set; }
+        [Required]
+        public string State { get; set; }
 
         [Required]
-        [DataType(DataType.EmailAddress)]
-        [MaxLength(255)]
-        public string Email { get; set; }
+        public string ZipCode { get; set; }
+
+        [Required]
+        public string Phone { get; set; }
+        [Required]
+        public DateTime DOB { get; set; }
+
+        public Race Race { get; set; }
+        [Required]
+        public int RaceId { get; set; }
 
 
-   
+
+
+
 
         public string FullName
         {
