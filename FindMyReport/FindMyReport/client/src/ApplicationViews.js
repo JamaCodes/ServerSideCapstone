@@ -1,7 +1,8 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
-import PlaceHolder from "./components/placeholder";
+import PatientList from "./components/Patient/PatientList";
+
 
 
 export default function ApplicationViews({ isLoggedIn }) {
@@ -9,7 +10,7 @@ export default function ApplicationViews({ isLoggedIn }) {
         <main>
         <Switch> 
         <Route path="/" exact>
-                    {isLoggedIn ? <PlaceHolder /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <PatientList /> : <Redirect to="/login" />}
                 </Route> 
                 <Route path="/login" exact>
                   <Login />
