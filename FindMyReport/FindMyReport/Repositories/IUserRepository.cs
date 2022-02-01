@@ -2,9 +2,9 @@
 
 namespace FindMyReport.Repositories
 {
-    public interface IUserRepository
+    public interface IUserProfileRepository
     {
-        void Add(User user);
-        User GetByFirebaseUserId(string firebaseUserId);
+        void Add(UserProfile user);
+        UserProfile GetByFirebaseUserId(string firebaseUserId);
     }
 }

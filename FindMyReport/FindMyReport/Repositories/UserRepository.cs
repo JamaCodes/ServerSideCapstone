@@ -8,11 +8,11 @@ using FindMyReport.Models;
 
 namespace FindMyReport.Repositories
 {
-    public class UserRepository : BaseRepository, IUserRepository
+    public class UserProfileRepository : BaseRepository, IUserProfileRepository
     {
-        public UserRepository(IConfiguration configuration) : base(configuration) { }
+        public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
 
-        public User GetByFirebaseUserId(string firebaseUserId)
+        public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
             using (var conn = Connection)
             {
@@ -20,28 +20,24 @@ namespace FindMyReport.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, FirebaseUserId, FirstName, LastName, Phone, DateOfBirth, State, IsProvider 
+                        SELECT Id, FirebaseUserId, FirstName, LastName, Email
                          FROM UserProfile
                          WHERE FirebaseUserId = @FirebaseuserId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
-                    User user = null;
+                    UserProfile user = null;
 
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        user = new User()
+                        user = new UserProfile()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            Phone = DbUtils.GetString(reader, "Phone"),
-                            DateOfBirth = DbUtils.GetDateTime(reader, "DateOfBirth"),
-                            State = DbUtils.GetString(reader, "State"),
-                            IsProvider = DbUtils.GetBool(reader, "IsProvider"),
-
+                            Email = DbUtils.GetString(reader, "Email")
                         };
 
                     }
@@ -52,23 +48,20 @@ namespace FindMyReport.Repositories
             }
         }
 
-        public void Add(User user)
+        public void Add(UserProfile user)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName, Phone, DateOfBirth, State, IsProvider )
+                    cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName, Email )
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirebaseUserId, @FirstName, @LastName, @Phone, @DateOfBirth, @State, @IsProvider)";
+                                        VALUES (@FirebaseUserId, @FirstName, @LastName, @Email)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", user.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
-                    DbUtils.AddParameter(cmd, "@Phone", user.Phone);
-                    DbUtils.AddParameter(cmd, "@DateOfBirth", user.DateOfBirth);
-                    DbUtils.AddParameter(cmd, "@State", user.State);
-                    DbUtils.AddParameter(cmd, "@IsProvider", user.IsProvider);
+                    DbUtils.AddParameter(cmd, "@Email", user.Email);
                     user.Id = (int)cmd.ExecuteScalar();
                 }
             }
