@@ -1,34 +1,20 @@
 import React from "react";
-import { Card, CardBody, Button } from "reactstrap";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-
-
-// let userId = parseInt(localStorage.getItem("LoggedInUserId"));
 
 const Patient = ({ patient }) => {
-    // const history = useHistory();
-
-    // const handleDelete = () => {
-    //     history.push(`/deletepost/${patient.id}`);
-    // };
-
-    // const handleEdit = () => {
-    //     history.push(`/editPost/${patient.id}`);
-    // };
-
-    return (
-        <Card className="patient">
-            <Link
-                to={`/patient/${patient.id}`}
-                style={{ textDecoration: "none", color: "black" }}
-            />
-                <p className="text-left px-2">
-                    FullName: {patient.fullName}
-                </p>
-             
-        </Card>
-    );
+  return (
+    <tbody>
+    <tr className="text-left px-2">
+      <td className="text-center px-2">{patient.id}</td>
+      <td className="text-left px-2">{patient.fullName}</td>
+      <td className="text-left px-2">{patient.dob}</td>
+      <td className="text-left px-2">{patient.address}</td>
+      <td className="text-left px-2">{patient.city}</td>
+      <td className="text-left px-2">{patient.state}</td>
+      <td className="text-left px-2">{patient.zipCode}</td>
+      <td className="text-left px-2">{patient.phone}</td>
+      <td className="text-left px-2">{patient.race.name}</td>
+    </tr>
+    </tbody>
+  );
 };
-
 export default Patient;
