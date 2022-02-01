@@ -40,6 +40,32 @@ namespace FindMyReport.Repositories
                 }
             }
         }
+        public void Add(Patient patient)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Patient (
+                            FirstName, LastName, Address, City, State, ZipCode, Phone, DOB, RaceId)
+                        OUTPUT INSERTED.ID
+                        VALUES (
+                           @FirstName, @LastName, @Address, @City, @State, @ZipCode, @Phone, @DOB, @RaceId)";
+                    cmd.Parameters.AddWithValue("@FirstName", patient.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", patient.LastName);
+                    cmd.Parameters.AddWithValue("@Address", patient.Address);
+                    cmd.Parameters.AddWithValue("@City", patient.City);
+                    cmd.Parameters.AddWithValue("@State", patient.State);
+                    cmd.Parameters.AddWithValue("@ZipCode", patient.ZipCode);
+                    cmd.Parameters.AddWithValue("@Phone", patient.Phone);
+                    cmd.Parameters.AddWithValue("@DOB", patient.DOB);
+                    cmd.Parameters.AddWithValue("@RaceId", patient.RaceId);
+                    patient.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
         private Patient NewPatientFromReader(SqlDataReader reader)
         {
             return new Patient()

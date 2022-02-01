@@ -23,10 +23,14 @@ namespace FindMyReport.Controllers
         public IActionResult GetAll()
         {
             var patients = _patientRepository.GetAll();
-       
             return Ok(patients);
         }
-   
+        [HttpPost]
+        public IActionResult Add(Patient patient)
+        {
+            _patientRepository.Add(patient);
+            return Ok(patient);
+        }
     }
 }
 
