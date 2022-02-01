@@ -25,6 +25,7 @@ namespace FindMyReport
             
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<ITestRepository, TestRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
